@@ -1,89 +1,96 @@
 
-# Telegram AI Assistant with Web Search and Voice Transcription
+# Telegram AI Assistant Bot
 
-This n8n workflow creates an intelligent Telegram bot that can process both text and voice messages, determine if online research is needed, and provide accurate responses using multiple AI models.
-
-## Workflow Overview
-
-The workflow integrates **Telegram**, **Google Gemini**, **Cohere**, and **Tavily Search** to create a smart assistant that:
-1. Receives messages from Telegram (text or voice)
-2. Transcribes voice messages to text
-3. Determines if internet search is required for the query
-4. Either performs a web search and summarizes results, or provides a direct answer
-5. Sends the response back to the user via Telegram
-
-## Nodes and Functionality
-
-### Triggers
-- **Telegram Trigger** - Listens for incoming Telegram messages
-- **When chat message received** - Alternative chat trigger for testing
-
-### Message Processing
-- **Switch** - Routes messages based on type (text or voice)
-- **Get a file** - Downloads voice message files from Telegram
-- **Transcribe a recording** - Converts voice messages to text using Google Gemini
-
-### AI Decision Making
-- **Internet needed?** - Uses Google Gemini to determine if web search is required
-- **If** - Conditional routing based on AI decision
-
-### Search and Response
-- **Search** - Performs web search using Tavily API when needed
-- **Summary** - Summarizes search results using Google Gemini
-- **Answer** - Provides direct answers using Cohere AI
-
-### Memory
-- **Simple Memory** - Maintains conversation context for AI models
-
-## Credentials Required
-
-1. **Telegram API** - For bot communication
-2. **Google PaLM API** - For Gemini language models and transcription
-3. **Cohere API** - For direct question answering
-4. **Tavily API** - For web search capabilities
-
-## How It Works
-
-1. User sends a message to the Telegram bot (text or voice)
-2. The workflow receives the message via webhook
-3. If it's a voice message:
-   - The audio file is downloaded
-   - Google Gemini transcribes the voice to text
-4. The text (from original message or transcription) is analyzed by Google Gemini to determine if internet search is needed
-5. Based on the decision:
-   - **If search needed**: Tavily performs web search → Google Gemini summarizes results → Response sent to Telegram
-   - **If no search needed**: Cohere provides direct answer → Response sent to Telegram
-6. Conversation memory maintains context for follow-up questions
-
-## Setup Instructions
-
-1. Create a Telegram bot using BotFather and obtain the API token
-2. Get API keys for:
-   - Google Gemini
-   - Cohere
-   - Tavily Search
-3. Configure credentials in n8n for all services
-4. Deploy the workflow and use the provided webhook URL for your Telegram bot
-5. Test by sending messages to your bot
+A powerful Telegram bot built with n8n that combines voice transcription, web search, weather information, calendar integration, image generation, and crypto price checking into a single intelligent assistant.
 
 ## Features
 
-- ✅ **Multi-modal input**: Handles both text and voice messages
-- ✅ **Intelligent routing**: Automatically decides when to search online
-- ✅ **Voice transcription**: Converts audio messages to text
-- ✅ **Web search integration**: Uses Tavily for accurate information retrieval
-- ✅ **Multiple AI models**: Leverages Google Gemini and Cohere for different tasks
-- ✅ **Conversation memory**: Maintains context for better interactions
-- ✅ **Conditional responses**: Provides search-based answers or direct responses as appropriate
+- **Voice Message Support**: Automatically transcribes voice messages and processes the text content
+- **Web Search**: Performs intelligent web searches using Tavily AI for general knowledge queries
+- **Weather Information**: Provides current weather information for Phuket, Thailand
+- **Calendar Integration**: Creates events in Google Calendar
+- **Image Generation**: Generates images using Google Gemini based on user requests
+- **Crypto Price Checking**: Retrieves cryptocurrency prices and market information
+- **Smart Routing**: Automatically determines the appropriate action based on user input
 
-## Example Usage
+## Workflow Overview
 
-- **Direct Answer Query**: "What is 2+2?"
-- **Search Required Query**: "What's the weather forecast for New York tomorrow?"
-- **Voice Message**: Send a voice note asking any question
+The bot processes incoming Telegram messages through the following flow:
 
-The bot will automatically determine the best approach and respond accordingly.
+1. **Message Reception**: Listens for incoming messages via Telegram Trigger
+2. **Content Detection**: Switch node determines if message is text or voice
+3. **Voice Processing**: If voice message:
+   - Downloads the audio file
+   - Transcribes using Google Gemini
+   - Simplifies transcription to remove non-speech sounds
+4. **Intent Analysis**: AI agent analyzes what services are needed (internet search, weather/calendar, crypto, image generation)
+5. **Action Routing**: Switch nodes route to appropriate services based on intent
+6. **Response Generation**: Various AI agents and tools generate responses
+7. **Telegram Response**: Sends processed response back to user
+
+## Node Breakdown
+
+### Core Nodes
+- **Telegram Trigger2**: Listens for incoming Telegram messages
+- **what is needed?**: Analyzes message intent and determines required services
+- **Switch nodes**: Route messages based on content type and required actions
+
+### Voice Processing
+- **Get a file1**: Downloads voice message files from Telegram
+- **Transcribe a recording1**: Transcribes audio using Google Gemini
+- **Simplify audio**: Cleans transcription by removing non-speech content
+
+### AI Processing
+- **Multiple Google Gemini Chat Models**: Provide language model capabilities for various agents
+- **Weather or calendar**: Processes weather and calendar requests for text messages
+- **Weather or calendar voice**: Processes weather and calendar requests for voice messages
+- **AI Agent nodes**: Handle general AI queries and crypto price checking
+
+### External Services
+- **Search2/Search3**: Web search using Tavily
+- **OpenWeatherMap/OpenWeatherMap1**: Weather information retrieval
+- **Create an event in Google Calendar**: Calendar event creation
+- **Generate an image/Generate an image1**: Image creation using Google Gemini
+
+### Response Handling
+- **Summary/Summaryy**: Summarizes search results
+- **Send a text message**: Sends text responses back to Telegram
+- **Send a photo message1**: Sends generated images back to Telegram
+
+## Setup Requirements
+
+1. **Telegram Bot Token**: Create a bot via BotFather and obtain the API token
+2. **Google Gemini API Key**: Required for voice transcription and AI processing
+3. **Google Calendar API**: Setup OAuth credentials for calendar integration
+4. **OpenWeatherMap API Key**: For weather information services
+5. **Tavily API Key**: For web search capabilities
+
+## Usage
+
+Simply send a message to your Telegram bot:
+- **Text messages**: Will be processed directly for intent analysis
+- **Voice messages**: Will be transcribed and then processed
+- The bot automatically determines what information or service you need and responds accordingly
+
+## Response Types
+
+- **General Knowledge**: Web search results with AI summarization
+- **Weather Information**: Current weather conditions for Phuket
+- **Calendar Events**: Event creation confirmation
+- **Image Generation**: Generated images based on your description
+- **Crypto Information**: Cryptocurrency prices and market data
+
+## Technical Architecture
+
+The workflow uses a modular approach with dedicated AI agents for different functions:
+- Intent classification agent
+- Web search and summarization agents
+- Weather and calendar processing agents
+- Image generation agents
+- Crypto price checking agents
+
+All processing is handled through Google Gemini language models with appropriate routing logic to ensure efficient and accurate responses.
 
 ---
 
-*Built with n8n, Google Gemini, Cohere, and Tavily Search*
+*Built with n8n - The workflow automation platform*
