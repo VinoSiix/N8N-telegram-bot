@@ -2,139 +2,21 @@
   "nodes": [
     {
       "parameters": {
-        "query": "={{ $('When chat message received').item.json.chatInput }}",
+        "query": "={{ $('Edit Fields').item.json.Input }}",
         "options": {}
       },
       "type": "@tavily/n8n-nodes-tavily.tavily",
       "typeVersion": 1,
       "position": [
-        7120,
-        -864
+        0,
+        1040
       ],
-      "id": "50db7bf8-4d92-4fea-8874-36dcf19af963",
+      "id": "6f7b82ec-1c3b-40a2-9669-1eed928efcf1",
       "name": "Search2",
       "credentials": {
         "tavilyApi": {
-          "id": "PIfKkzNTo08hGyC9",
+          "id": "pLKGmBqjKyqM8Xcx",
           "name": "Tavily account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.chatInput }}",
-        "options": {
-          "systemMessage": "\"Respond only with 'internet: true' if you need to search online, otherwise 'internet: false'.\""
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        6576,
-        -576
-      ],
-      "id": "7ffb8857-b60d-4f58-aeb6-855f8e9d6cf9",
-      "name": "Internet needed?1"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=summorize this: {{ $json.results[0].content }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        7360,
-        -864
-      ],
-      "id": "0b52ce3b-1e37-4c3b-9455-f2b4d71ef032",
-      "name": "Summary2"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        7104,
-        -368
-      ],
-      "id": "d4544f67-4071-4a54-808e-252903e35045",
-      "name": "Answer2"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        7296,
-        -656
-      ],
-      "id": "d7c3e2cf-01ed-4016-b05d-887d8ba8dbb2",
-      "name": "Google Gemini Chat Model3",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "pUIMXslk2mqS6zPH",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "75465142-1d15-4e9f-8605-9e0d8677d6cd",
-              "leftValue": "={{ $('Internet needed?1').item.json.output }}",
-              "rightValue": "internet: true",
-              "operator": {
-                "type": "string",
-                "operation": "contains"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        6912,
-        -576
-      ],
-      "id": "fba3406a-fad7-4fcf-a3ad-74d5d360ae76",
-      "name": "If4"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatCohere",
-      "typeVersion": 1,
-      "position": [
-        7056,
-        -176
-      ],
-      "id": "ac95c053-9d50-48d0-a415-f5b459848ef0",
-      "name": "Cohere Chat Model15",
-      "credentials": {
-        "cohereApi": {
-          "id": "jTE4Ol2PZmA1cbQ5",
-          "name": "CohereApi account"
         }
       }
     },
@@ -148,60 +30,16 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        5904,
-        -640
+        -2256,
+        1056
       ],
-      "id": "3bb12a54-705b-49ba-8e8e-ec6f4625c245",
+      "id": "3b00a93e-16e3-46ab-846b-ee63c2c8ea2c",
       "name": "Telegram Trigger2",
       "webhookId": "4fea25ec-2fa4-46e4-ac84-ab2482d334d7",
       "credentials": {
         "telegramApi": {
-          "id": "UfpmxTUIz33kQG2P",
-          "name": "Telegram account 3"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
-        "text": "={{ $json.output }}",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        7712,
-        -864
-      ],
-      "id": "c4feebf4-536e-40da-9e6e-98b20b77d348",
-      "name": "Send a text message13",
-      "webhookId": "6796c09e-beab-41cd-a13f-733f47dd197e",
-      "credentials": {
-        "telegramApi": {
-          "id": "UfpmxTUIz33kQG2P",
-          "name": "Telegram account 3"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
-        "text": "={{ $json.output }}",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        7456,
-        -368
-      ],
-      "id": "bff14cd3-b219-4e14-8d37-0720bd12eee3",
-      "name": "Send a text message14",
-      "webhookId": "6796c09e-beab-41cd-a13f-733f47dd197e",
-      "credentials": {
-        "telegramApi": {
-          "id": "UfpmxTUIz33kQG2P",
-          "name": "Telegram account 3"
+          "id": "pQZvcqd35r0AeHFX",
+          "name": "Telegram account"
         }
       }
     },
@@ -266,10 +104,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        6160,
-        -560
+        -2000,
+        1056
       ],
-      "id": "24d7e055-f232-4e0a-b672-3e87ed3650c6",
+      "id": "1f78c57e-2923-4881-a183-f24c50ba0048",
       "name": "Switch3"
     },
     {
@@ -281,16 +119,16 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        6160,
-        -304
+        -1744,
+        1136
       ],
-      "id": "4184f7a5-7d3c-4b0b-85b1-57534369790f",
+      "id": "6c4d9e39-811b-4c50-a798-307a13edc29c",
       "name": "Get a file1",
       "webhookId": "bef833ce-7b21-4798-8cfa-8c2bfc12dc2e",
       "credentials": {
         "telegramApi": {
-          "id": "UfpmxTUIz33kQG2P",
-          "name": "Telegram account 3"
+          "id": "pQZvcqd35r0AeHFX",
+          "name": "Telegram account"
         }
       }
     },
@@ -309,14 +147,414 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1,
       "position": [
-        6368,
-        -304
+        -1536,
+        1136
       ],
-      "id": "f8c989ad-0f2a-4a61-9a32-27671fd89752",
+      "id": "7f6587da-0825-4a0e-a502-e2d2830ebdc6",
       "name": "Transcribe a recording1",
       "credentials": {
         "googlePalmApi": {
-          "id": "pUIMXslk2mqS6zPH",
+          "id": "ucfFqS8moDMy8Beb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Telegram bot",
+        "height": 80,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2352,
+        928
+      ],
+      "id": "dda842fa-98ba-4cad-bb03-0d442b781ccc",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=remove all sounds and ONLY keep the words. IMPORTANT: dont add anything new: {{ $json.content.parts[0].text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1328,
+        1136
+      ],
+      "id": "8e14acf9-0998-4258-a50d-a67fd48bc0b1",
+      "name": "Simplify audio"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1353e92f-0e65-4bfe-b4c7-5f95da216022",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "image: true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "calendar or weather: true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "8c200b8b-0462-4b70-86e7-cb7132156fd7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "weather"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8ab97a6b-8089-4b18-a2a1-347a757c676b",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "internet: true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Internet"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "47dd18df-d2e7-487b-a8e7-568983db18fc",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "crypto: true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "crypto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d9b004cd-811b-4f3f-8cf6-e8a170677950",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "internet: true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notContains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Nothing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -448,
+        992
+      ],
+      "id": "9f0fc479-7731-4320-9dfb-761b34d3ab37",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "cityName": "Phuket, th"
+      },
+      "type": "n8n-nodes-base.openWeatherMapTool",
+      "typeVersion": 1,
+      "position": [
+        224,
+        832
+      ],
+      "id": "b8426828-194c-4ca8-a506-d2e8562fccbe",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "F2gEJmSzNjDWpi1z",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "timppamsix@gmail.com",
+          "mode": "list",
+          "cachedResultName": "timppamsix@gmail.com"
+        },
+        "end": "={{ $now.plus(1, 'day') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        832
+      ],
+      "id": "e638edd7-a76f-4186-a790-f15490dc218a",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "8SDA9nVCK27CHXyj",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        1040
+      ],
+      "id": "3dfd7375-1aa4-4671-a545-9588838e09c5",
+      "name": "Send a text message",
+      "webhookId": "6796c09e-beab-41cd-a13f-733f47dd197e",
+      "credentials": {
+        "telegramApi": {
+          "id": "pQZvcqd35r0AeHFX",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.Input }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        640
+      ],
+      "id": "eb75c388-5a88-4a85-8c3b-2ed016949c1a",
+      "name": "Weather or calendar"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=summorize this: {{ $json.results[0].content }} and {{ $json.results[1].content }} and {{ $json.results[2].content }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        1040
+      ],
+      "id": "878ef918-7d43-4c1f-a93b-3df61498ae97",
+      "name": "Summary"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.Input }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        1392
+      ],
+      "id": "ac993c93-7525-4364-a186-cacf34a4e440",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "query": "={{ $('Edit Fields').item.json.Input }} ",
+        "options": {}
+      },
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [
+        320,
+        1600
+      ],
+      "id": "a2b071d6-f9f1-4cc1-81d5-a46fa437b242",
+      "name": "Search in Tavily1",
+      "credentials": {
+        "tavilyApi": {
+          "id": "pLKGmBqjKyqM8Xcx",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit Fields').item.json.Input }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        1824
+      ],
+      "id": "eb3e522e-d899-4e5f-8887-84b0028151b8",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.Input }}",
+        "options": {
+          "systemMessage": "check if you need to search something on the internet just say \"internet: true\" or \"internet: false\". also check if you need to check the calendar or weather or crypto price just say \"calendar or weather : true\" or \"calendar or weather: false\". also check if you need to check the price of crypto just say \"crypto: true\" or \"crypto: false\". also check if you need to generate a image, say \"image: true\" or \"image: false\". IMPORTANT: don't answer the question say nothing else and output only internet: ? calendar or weather: ? crypto: ?:"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -784,
+        1040
+      ],
+      "id": "e0862f78-652c-4ec2-9735-b8483362ba89",
+      "name": "what is needed?"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-exp-image-generation",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-exp-image-generation"
+        },
+        "prompt": "={{ $('Edit Fields').item.json.Input }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        64,
+        432
+      ],
+      "id": "a65776bc-0399-446b-93b9-e9815cd28620",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ucfFqS8moDMy8Beb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        432
+      ],
+      "id": "5cfc1931-0878-4612-9ac4-c521f0e8187f",
+      "name": "Send a photo message1",
+      "webhookId": "8a064117-7824-4769-91e3-29d2e3f7786c",
+      "credentials": {
+        "telegramApi": {
+          "id": "pQZvcqd35r0AeHFX",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1392,
+        1344
+      ],
+      "id": "f95fd1fa-d81c-40d5-b415-c049abeb05d8",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ucfFqS8moDMy8Beb",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -328,42 +566,116 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        6528,
-        -368
+        -928,
+        1248
       ],
-      "id": "ebd50876-87af-4991-98da-9f1942803525",
+      "id": "f8c33449-ccae-41cb-aa2c-be4592eea1b8",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
-          "id": "pUIMXslk2mqS6zPH",
+          "id": "ucfFqS8moDMy8Beb",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
     {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
       "position": [
-        7680,
-        -112
+        160,
+        2000
       ],
-      "id": "3fc9f20f-d59d-4ab9-afbe-d9d6896ef3d4",
-      "name": "Simple Memory"
+      "id": "cc77bf24-f2dc-42a0-a479-d4be0c3d18be",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ucfFqS8moDMy8Beb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     },
     {
       "parameters": {
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.3,
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
       "position": [
-        5904,
-        -416
+        112,
+        1600
       ],
-      "id": "c694c90d-eba0-46da-a22a-2b4ea097fc19",
-      "name": "When chat message received",
-      "webhookId": "3dd2417f-ca94-4ca3-8108-28dccf36e35f"
+      "id": "1667d86a-923e-4869-b0ad-241e65f81cfe",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ucfFqS8moDMy8Beb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        1232
+      ],
+      "id": "bc9927f6-0ce6-495d-89d4-816848cbd82e",
+      "name": "Google Gemini Chat Model7",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ucfFqS8moDMy8Beb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        112,
+        832
+      ],
+      "id": "1feabf6d-122a-4da1-8a41-39196dd91406",
+      "name": "Google Gemini Chat Model9",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ucfFqS8moDMy8Beb",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49a9c817-1f46-4021-9f0f-7800af552a40",
+              "name": "Input",
+              "value": "={{ $json.output }} {{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -992,
+        1040
+      ],
+      "id": "198d2d28-f6c5-4dbd-893a-013b5d9b7a5d",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -371,81 +683,8 @@
       "main": [
         [
           {
-            "node": "Summary2",
+            "node": "Summary",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Internet needed?1": {
-      "main": [
-        [
-          {
-            "node": "If4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Summary2": {
-      "main": [
-        [
-          {
-            "node": "Send a text message13",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Answer2": {
-      "main": [
-        [
-          {
-            "node": "Send a text message14",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model3": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Summary2",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If4": {
-      "main": [
-        [
-          {
-            "node": "Search2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Answer2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cohere Chat Model15": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Answer2",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -466,7 +705,7 @@
       "main": [
         [
           {
-            "node": "Internet needed?1",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -495,8 +734,168 @@
       "main": [
         [
           {
-            "node": "Internet needed?1",
+            "node": "Simplify audio",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simplify audio": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Weather or calendar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weather or calendar",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weather or calendar",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weather or calendar": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summary": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search in Tavily1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "what is needed?": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Simplify audio",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -506,34 +905,62 @@
       "ai_languageModel": [
         [
           {
-            "node": "Internet needed?1",
+            "node": "what is needed?",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Simple Memory": {
-      "ai_memory": [
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
         [
           {
-            "node": "Summary2",
-            "type": "ai_memory",
-            "index": 0
-          },
-          {
-            "node": "Answer2",
-            "type": "ai_memory",
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "When chat message received": {
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summary",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Weather or calendar",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
       "main": [
         [
           {
-            "node": "Switch3",
+            "node": "what is needed?",
             "type": "main",
             "index": 0
           }
@@ -544,6 +971,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "1efc3d76fa127d96400db5c37840949eced8c5cc2b3f41157e7cce20e9669b79"
+    "instanceId": "19932aba281cbcf902c87c40867d4c4d78089efec1bb07fc2175a5fda5ac7218"
   }
 }
